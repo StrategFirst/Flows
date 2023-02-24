@@ -7,7 +7,7 @@ from section.Player import SectionPlayer
 from section.Sidebar import SectionSidebar
 
 customtkinter.set_appearance_mode("Dark")
-customtkinter.set_default_color_theme("dark-blue")
+customtkinter.set_default_color_theme("./assets/flows-theme.json")
 
 
 
