@@ -10,6 +10,7 @@ customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("./assets/flows-theme.json")
 
 from tabs.SettingsTab import settingsTab
+from tabs.SearchTab import searchTab
 
 class App(customtkinter.CTk):
 
@@ -67,6 +68,7 @@ class App(customtkinter.CTk):
 		self.tabview.add("Paramètres")
 
 		settingsTab( self.tabview.tab('Paramètres') )
+		searchTab( self.tabview.tab('Recherche') )
 		
 		self.tabview.tab("Paramètres").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
 		self.tabview.tab("Playlist").grid_columnconfigure(0, weight=1)

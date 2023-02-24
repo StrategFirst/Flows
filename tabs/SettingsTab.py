@@ -1,6 +1,6 @@
 from customtkinter import CTkComboBox, CTkFrame, CTkLabel, CTkSlider
 
-def settingsTab( tab : CTkFrame ):
+def settingsTab( tab : CTkFrame ) -> None :
     initialSizeSetting = CTkFrame( master=tab )
     CTkLabel(
         master=initialSizeSetting,

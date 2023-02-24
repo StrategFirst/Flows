@@ -18,7 +18,7 @@ class SectionPlayer(CTkFrame):
 
 			**kwargs
 		)
-		self.configure( height= 100 , bg_color='blue')
+		self.configure( height= 100 )
 
 		self.topline = CTkLabel(
 			master=self,
