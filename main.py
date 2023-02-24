@@ -9,7 +9,7 @@ from section.Sidebar import SectionSidebar
 customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("./assets/flows-theme.json")
 
-
+from tabs.SettingsTab import settingsTab
 
 class App(customtkinter.CTk):
 
@@ -23,14 +23,17 @@ class App(customtkinter.CTk):
 		# Configure layout
 		self.grid_columnconfigure(1, weight=1)
 		self.grid_columnconfigure((2, 3), weight=0)
-		self.grid_rowconfigure((0, 1, 2), weight=1)
+		self.grid_rowconfigure((0, 1), weight=1)
 
 		# Create elements
 		self.sidebar_frame = SectionSidebar( 
 			master=self,
 			
 			# Content
-			icon=Image.open('./assets/icon.png'),
+			icon=(
+				Image.open('./assets/icon.png'),
+				Image.open('./assets/icon_reverse.png'),
+			),
 			menu=['Recherche','Playlist','Paramètres'],
 			callback=self.sidebarMenu,
 
@@ -53,43 +56,32 @@ class App(customtkinter.CTk):
 
 
 		# create tabview
-		self.tabview = TabFrames(self, width=250, fg_color=self._fg_color)
+		self.tabview = TabFrames(self, width=250, fg_color=self._fg_color, height=450)
 		self.tabview.add("Recherche")
 		
 		self.entry = customtkinter.CTkEntry(self.tabview.tab('Recherche'), placeholder_text="CTkEntry")
-		#self.entry.grid(row=3, column=1, columnspan=2, padx=(20, 0), pady=(20, 20), sticky="nsew")
 
 		self.main_button_1 = customtkinter.CTkButton(master=self.tabview.tab('Recherche'), fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE"))
-		#self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
 		self.tabview.add("Playlist")
 		self.tabview.add("Paramètres")
+
+		settingsTab( self.tabview.tab('Paramètres') )
+		
 		self.tabview.tab("Paramètres").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
 		self.tabview.tab("Playlist").grid_columnconfigure(0, weight=1)
+		
 
-		self.optionmenu_1 = customtkinter.CTkOptionMenu(self.tabview.tab("Paramètres"), dynamic_resizing=False,
-														values=["Value 1", "Value 2", "Value Long Long Long"])
-		self.optionmenu_1.grid(row=0, column=0, padx=20, pady=(20, 10))
-		self.combobox_1 = customtkinter.CTkComboBox(self.tabview.tab("Paramètres"),
-													values=["Value 1", "Value 2", "Value Long....."])
-		self.combobox_1.grid(row=1, column=0, padx=20, pady=(10, 10))
-		self.string_input_button = customtkinter.CTkButton(self.tabview.tab("Paramètres"), text="Open CTkInputDialog",
-														   command=self.open_input_dialog_event)
-		self.string_input_button.grid(row=2, column=0, padx=20, pady=(10, 10))
 		self.label_tab_2 = customtkinter.CTkLabel(self.tabview.tab("Playlist"), text="CTkLabel on Playlist")
 		self.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
-
-		#self.sidebar_frame.configure( background='#777' )
-		#self.tabview.configure( bg='#444' )
-		#self.player.configure( background='#999' )
-		#self.tabview.tab('Recherche').configure(bg_color='red')
-		#self.tabview.tab('Playlist').configure(bg_color='red')
-		#self.tabview.tab('Paramètres').configure(bg_color='red')
 
 		# Positioning in layout
 		self.sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="nsew")
 		self.tabview.grid(row=0, column=1, padx=0, pady=0, sticky="nsew")
 		self.player.grid(row=1,column=1, padx=0, pady=0,  sticky="nsew")
+
+		# temp
+		self.player.setCurrentTrack( artist='John newman' , track='Love me again' )
 
 	def open_input_dialog_event(self):
 		dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
@@ -109,6 +101,7 @@ class App(customtkinter.CTk):
 if __name__ == "__main__":
 	app = App()
 	app.title("Flows")
-	img = PhotoImage(file='assets/icon_sq.png')
-	app.tk.call('wm', 'iconphoto', app._w, img)
+	img = PhotoImage(file='assets/icon.ico')
+	app.after(100, lambda: app.wm_iconphoto(False, img))
+	
 	app.mainloop()

@@ -1,6 +1,6 @@
 from customtkinter import CTkFrame, CTkImage, CTkLabel, CTkButton, CTkSwitch, CTkSlider
 from customtkinter import get_appearance_mode, set_appearance_mode
-from typing import List, Callable
+from typing import List, Callable, Tuple
 from PIL import Image
 
 class SectionSidebar(CTkFrame):
@@ -9,7 +9,7 @@ class SectionSidebar(CTkFrame):
 		
 		master	: any,
 
-		icon	: any,
+		icon	: Tuple[any,any],
 		menu	: List[str],
 
 
@@ -36,10 +36,10 @@ class SectionSidebar(CTkFrame):
 			master = self , 
 			text = ' ' ,
 			image =	CTkImage(
-				light_image=icon,
-				dark_image=icon,
-					size=(width,icon.height*(width/icon.width))
-				),
+				light_image=icon[1],
+				dark_image=icon[0],
+				size=(width,icon[0].height*(width/icon[0].width))
+			),
 			padx = 0,
 		)
 
