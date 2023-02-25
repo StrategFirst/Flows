@@ -1,10 +1,10 @@
 from tkinter import PhotoImage
 import customtkinter
-from TabFrames import TabFrames
 from PIL import Image
 
-from section.Player import SectionPlayer
-from section.Sidebar import SectionSidebar
+from section.Player import Player
+from section.Sidebar import Sidebar
+from section.TabFrames import TabFrames
 
 customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("./assets/flows-theme.json")
@@ -27,7 +27,7 @@ class App(customtkinter.CTk):
 		self.grid_rowconfigure((0, 1), weight=1)
 
 		# Create elements
-		self.sidebar_frame = SectionSidebar( 
+		self.sidebar_frame = Sidebar( 
 			master=self,
 			
 			# Content
@@ -48,7 +48,7 @@ class App(customtkinter.CTk):
 			]
 		)
 
-		self.player = SectionPlayer (
+		self.player = Player (
 			master=self,
 			height=200,
 			fg_color=self._fg_color,
@@ -85,16 +85,6 @@ class App(customtkinter.CTk):
 		# temp
 		self.player.setCurrentTrack( artist='John newman' , track='Love me again' )
 
-	def open_input_dialog_event(self):
-		dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
-		print("CTkInputDialog:", dialog.get_input())
-
-	def change_appearance_mode_event(self, new_appearance_mode: str):
-		customtkinter.set_appearance_mode(new_appearance_mode)
-
-	def change_scaling_event(self, new_scaling: str):
-		new_scaling_float = int(new_scaling.replace("%", "")) / 100
-		customtkinter.set_widget_scaling(new_scaling_float)
 
 	def sidebarMenu(self,tab):
 		self.tabview.set(tab)

@@ -1,7 +1,7 @@
 from customtkinter import CTkFrame, CTkProgressBar, CTkLabel, CTkImage
 from PIL import Image
 
-class SectionPlayer(CTkFrame):
+class Player(CTkFrame):
 
 
 	def __init__( self,
@@ -18,7 +18,6 @@ class SectionPlayer(CTkFrame):
 
 			**kwargs
 		)
-		self.configure( height= 100 )
 
 		self.topline = CTkLabel(
 			master=self,

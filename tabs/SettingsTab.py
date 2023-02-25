@@ -1,4 +1,5 @@
 from customtkinter import CTkComboBox, CTkFrame, CTkLabel, CTkSlider
+from customtkinter import set_widget_scaling
 
 def settingsTab( tab : CTkFrame ) -> None :
     initialSizeSetting = CTkFrame( master=tab )
@@ -40,7 +41,8 @@ def settingsTab( tab : CTkFrame ) -> None :
         master=initialSizeSetting,
         from_=50,
         to=200,
-        number_of_steps=16
+        number_of_steps=16,
+        command=lambda v: set_widget_scaling(v/100) 
     ).grid( row=3 , column=1 )
 
     initialSizeSetting.configure( fg_color = tab._fg_color )

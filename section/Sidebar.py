@@ -3,7 +3,7 @@ from customtkinter import get_appearance_mode, set_appearance_mode
 from typing import List, Callable, Tuple
 from PIL import Image
 
-class SectionSidebar(CTkFrame):
+class Sidebar(CTkFrame):
 
 	def __init__( self,
 		
