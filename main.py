@@ -5,6 +5,7 @@ from PIL import Image
 from section.Player import Player
 from section.Sidebar import Sidebar
 from section.TabFrames import TabFrames
+from utils.SizeHandling import SizeHandler
 
 customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("./assets/flows-theme.json")
@@ -19,7 +20,8 @@ class App(customtkinter.CTk):
 
 		# Configure window
 		self.title("Flows")
-		self.geometry(f"{1100}x{580}")
+		SizeHandler.setSize( self , 1100 , 580 )
+		self.bind( '<Configure>' , lambda e: SizeHandler.handler(e) if e.widget == self else 0 )
 
 		# Configure layout
 		self.grid_columnconfigure(1, weight=1)
@@ -39,7 +41,6 @@ class App(customtkinter.CTk):
 			callback=self.sidebarMenu,
 
 			# Style
-			width=100,
 			corner_radius=0,
 			menuIcon=[
 				Image.open('./assets/icons/lence.png'),
@@ -50,14 +51,13 @@ class App(customtkinter.CTk):
 
 		self.player = Player (
 			master=self,
-			height=200,
 			fg_color=self._fg_color,
 		)
 
 
 
 		# create tabview
-		self.tabview = TabFrames(self, width=250, fg_color=self._fg_color, height=450)
+		self.tabview = TabFrames(self,  fg_color=self._fg_color)
 		self.tabview.add("Recherche")
 		
 		self.entry = customtkinter.CTkEntry(self.tabview.tab('Recherche'), placeholder_text="CTkEntry")

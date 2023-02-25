@@ -3,6 +3,7 @@ from typing import Union, Tuple, Callable, Optional
 from customtkinter import CTkTabview
 from customtkinter import CTkFrame
 
+from utils.SizeHandling import SizeHandler
 
 class TabFrames(CTkTabview):
 	"""
@@ -12,8 +13,6 @@ class TabFrames(CTkTabview):
 
 	def __init__(self,
 				 master: any,
-				 width: int = 300,
-				 height: int = 250,
 				 corner_radius: Optional[int] = None,
 				 border_width: Optional[int] = None,
 
@@ -36,8 +35,8 @@ class TabFrames(CTkTabview):
 				 
 		super().__init__(
 			master = master,
-			width = width,
-			height = height,
+			width=SizeHandler.get_mainWidth(),
+			height=SizeHandler.get_mainHeight(),
 			corner_radius = corner_radius,
 			border_width = border_width,
 			bg_color = bg_color,
@@ -55,6 +54,13 @@ class TabFrames(CTkTabview):
 			**kwargs
 		)
 		del self._segmented_button
+		SizeHandler.subscribe( self.updateSize )
+
+	def updateSize(self):
+		self.configure( 
+			width=SizeHandler.get_mainWidth(),
+			height=SizeHandler.get_mainHeight(),
+		)
 
 
 	def _configure_segmented_button_background_corners(self):

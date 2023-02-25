@@ -1,5 +1,6 @@
 from customtkinter import CTkFrame, CTkProgressBar, CTkLabel, CTkImage
 from PIL import Image
+from utils.SizeHandling import SizeHandler
 
 class Player(CTkFrame):
 
@@ -8,13 +9,12 @@ class Player(CTkFrame):
 		
 		master	: any,
 
-		height	: int,
-
 		** kwargs
 	):
 		super().__init__(
 			master=master,
-			height=height,
+			width=SizeHandler.get_playerWidth(),
+			height=SizeHandler.get_playerHeight(),
 
 			**kwargs
 		)
@@ -38,6 +38,14 @@ class Player(CTkFrame):
 		self.progressbar.configure(mode="indeterminnate")
 		self.progressbar.start()
 		self.progressbar.pack( anchor='nw', padx=(20,0) )
+
+		SizeHandler.subscribe( self.updateSize )
+
+	def updateSize(self):
+		self.configure( 
+			width=SizeHandler.get_playerWidth(),
+			height=SizeHandler.get_playerHeight(),
+		)
 
 	def setCurrentTrack( self, artist :str, track:str ) -> None :
 		self.title.configure( text=f"{track} • {artist} ")

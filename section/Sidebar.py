@@ -2,7 +2,7 @@ from customtkinter import CTkFrame, CTkImage, CTkLabel, CTkButton, CTkSwitch, CT
 from customtkinter import get_appearance_mode, set_appearance_mode
 from typing import List, Callable, Tuple
 from PIL import Image
-
+from utils.SizeHandling import SizeHandler
 class Sidebar(CTkFrame):
 
 	def __init__( self,
@@ -12,9 +12,6 @@ class Sidebar(CTkFrame):
 		icon	: Tuple[any,any],
 		menu	: List[str],
 
-
-		width	: int,
-
 		callback: Callable,
 
 		menuIcon : List[any],
@@ -23,7 +20,8 @@ class Sidebar(CTkFrame):
 	):
 		super().__init__(
 			master=master,
-			width=width,
+			width=SizeHandler.get_sidebarWidth(),
+			height=SizeHandler.get_sidebarHeight(),
 
 			**kwargs
 		)
@@ -32,6 +30,7 @@ class Sidebar(CTkFrame):
 
 		## Creation
 		# App's icon
+		width = SizeHandler.get_sidebarWidth()
 		self.icon = CTkLabel( 
 			master = self , 
 			text = ' ' ,
@@ -114,6 +113,14 @@ class Sidebar(CTkFrame):
 		self.grid_rowconfigure(k+1, weight=1)
 		for i,m in enumerate(self.fopt) :
 			m.grid( row=(i+k+2) , column=0 , padx=0 , pady=0 )
+
+		SizeHandler.subscribe( self.updateSize )
+
+	def updateSize(self):
+		self.configure( 
+			width=SizeHandler.get_sidebarWidth(),
+			height=SizeHandler.get_sidebarHeight(),
+		)
 
 	def factoryChangeTab( self , tabName ):
 		return lambda : self.callback( tabName )
