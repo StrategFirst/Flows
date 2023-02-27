@@ -6,12 +6,12 @@ from section.Player import Player
 from section.Sidebar import Sidebar
 from section.TabFrames import TabFrames
 from utils.SizeHandling import SizeHandler
-
+from utils.Configuration import Config
 customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("./assets/flows-theme.json")
 
-from tabs.SettingsTab import settingsTab
-from tabs.SearchTab import searchTab
+from tabs.SettingsTab import SettingsTab
+from tabs.SearchTab import SearchTab
 
 class App(customtkinter.CTk):
 
@@ -20,7 +20,7 @@ class App(customtkinter.CTk):
 
 		# Configure window
 		self.title("Flows")
-		SizeHandler.setSize( self , 1100 , 580 )
+		SizeHandler.setSize( self , Config.get(['initial_size','width']) , Config.get(['initial_size','height']) )
 		self.bind( '<Configure>' , lambda e: SizeHandler.handler(e) if e.widget == self else 0 )
 
 		# Configure layout
@@ -37,7 +37,7 @@ class App(customtkinter.CTk):
 				Image.open('./assets/icon.png'),
 				Image.open('./assets/icon_reverse.png'),
 			),
-			menu=['Recherche','Playlist','Paramètres'],
+			menu=['Recherche','Playlist','Parametres'],
 			callback=self.sidebarMenu,
 
 			# Style
@@ -60,17 +60,17 @@ class App(customtkinter.CTk):
 		self.tabview = TabFrames(self,  fg_color=self._fg_color)
 		self.tabview.add("Recherche")
 		
-		self.entry = customtkinter.CTkEntry(self.tabview.tab('Recherche'), placeholder_text="CTkEntry")
+		#self.entry = customtkinter.CTkEntry(self.tabview.tab('Recherche'), placeholder_text="CTkEntry")
 
-		self.main_button_1 = customtkinter.CTkButton(master=self.tabview.tab('Recherche'), fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE"))
+		#self.main_button_1 = customtkinter.CTkButton(master=self.tabview.tab('Recherche'), fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE"))
 
 		self.tabview.add("Playlist")
-		self.tabview.add("Paramètres")
+		self.tabview.add("Parametres")
 
-		settingsTab( self.tabview.tab('Paramètres') )
-		searchTab( self.tabview.tab('Recherche') )
+		SettingsTab( self.tabview.tab('Parametres') )
+		SearchTab( self.tabview.tab('Recherche') )
 		
-		self.tabview.tab("Paramètres").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
+		self.tabview.tab("Parametres").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
 		self.tabview.tab("Playlist").grid_columnconfigure(0, weight=1)
 		
 

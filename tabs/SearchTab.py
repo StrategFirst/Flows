@@ -1,10 +1,10 @@
 from customtkinter import CTkEntry, CTkFrame, CTkScrollableFrame
 from utils.VideoFrame import VideoFrame
 from utils.ytbSearchScrapper import ytbSearchScrapper
+from utils.SizeHandling import SizeHandler
 
-#from tkinter import KeyEvent
 
-class searchTab(CTkFrame):
+class SearchTab(CTkFrame):
 	
 	def __init__( self , master_tab : CTkFrame ):
 		super().__init__(
@@ -13,12 +13,11 @@ class searchTab(CTkFrame):
 		)
 		self.searchbar = CTkEntry(
 			master=self,
-			width=(master_tab.master.master._current_width*80/100),
-			#
+			width=(SizeHandler.get_mainWidth()*80/100),
 		)
 		self.searchbar.grid(
 			row=0 , column=0,
-			padx=20
+			padx=0, 
 		)
 		self.searchbar.bind(
 			sequence='<Return>',
@@ -27,7 +26,22 @@ class searchTab(CTkFrame):
 		self.results = CTkScrollableFrame( master=self , fg_color=self._fg_color , width=800 , height=350)
 		self.results.grid( row=1 , column=0 )
 		self.list = []
-		self.pack()
+		self.pack(
+			padx=0,
+			pady=0,)
+		SizeHandler.subscribe( self.updateSize )
+
+	def updateSize(self):
+		self.configure(
+			width=SizeHandler.get_mainWidth(),
+			height=SizeHandler.get_mainHeight(),
+		)
+		self.searchbar.configure( 
+			width= int(SizeHandler.get_mainWidth()*80/100),
+		)
+		self.results.configure( 
+			width= int(SizeHandler.get_mainWidth()*80/100),
+		)
 
 	def search( self , event ):
 		query = event.widget.get()

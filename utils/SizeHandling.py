@@ -1,5 +1,7 @@
 import customtkinter
 from typing import Callable
+from utils.SingleCall import SingleCall
+
 class SizeHandler:
 
     _width = 0
@@ -30,31 +32,31 @@ class SizeHandler:
 
     @staticmethod
     def get_totalWidth() -> int:
-        return SizeHandler._width
+        return int(SizeHandler._width)
     @staticmethod
     def get_totalHeight() -> int:
-        return SizeHandler._height
+        return int(SizeHandler._height)
         
 
     @staticmethod
     def get_sidebarWidth() -> int:
-        return 100
+        return int(100)
     @staticmethod
     def get_sidebarHeight() -> int:
-        return SizeHandler._height
+        return int(SizeHandler._height)
 
 
     @staticmethod
     def get_playerWidth() -> int:
-        return SizeHandler._width - SizeHandler.get_sidebarWidth()
+        return int(SizeHandler._width - SizeHandler.get_sidebarWidth())
     @staticmethod
     def get_playerHeight() -> int:
-        return 150
+        return int(150)
 
 
     @staticmethod
     def get_mainWidth() -> int:
-        return SizeHandler._width - SizeHandler.get_sidebarWidth()
+        return int(SizeHandler._width - SizeHandler.get_sidebarWidth())
     @staticmethod
     def get_mainHeight() -> int:
-        return SizeHandler._height - SizeHandler.get_playerHeight()
+        return int(SizeHandler._height - SizeHandler.get_playerHeight())
