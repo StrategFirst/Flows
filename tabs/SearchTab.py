@@ -2,7 +2,7 @@ from customtkinter import CTkEntry, CTkFrame, CTkScrollableFrame
 from utils.VideoFrame import VideoFrame
 from utils.ytbSearchScrapper import ytbSearchScrapper
 from utils.SizeHandling import SizeHandler
-
+from utils.ErrorPopup import ErrorPopup
 
 class SearchTab(CTkFrame):
 	
@@ -44,31 +44,39 @@ class SearchTab(CTkFrame):
 		)
 
 	def search( self , event ):
-		query = event.widget.get()
-		if query == '':
-			return
+		try:
+			query = event.widget.get()
+			if query == '':
+				return
 
-		for i in list(range(len(self.list)))[::-1]:
-			self.list[i].destroy()
-			del self.list[i]
-		
-		self.list = [
-				VideoFrame(
-					master	= self.results,
+			for i in list(range(len(self.list)))[::-1]:
+				self.list[i].destroy()
+				del self.list[i]
+			
+			self.list = [
+					VideoFrame(
+						master	= self.results,
 
-					id = result.get('id'),
-					title = result.get('title'),
-					duration = result.get('length'),
+						id = result.get('id'),
+						title = result.get('title'),
+						duration = result.get('length'),
 
-					height = 15,
-					fg_color = self._fg_color,
+						height = 15,
+						fg_color = self._fg_color,
 
-				)
-			for 
-				result
-			in 
-				ytbSearchScrapper( query ).results
-		]
+					)
+				for 
+					result
+				in 
+					ytbSearchScrapper( query ).results
+			]
 
-		for i in range(len(self.list)):
-			self.list[i].grid( row=i , column=1 )
+			for i in range(len(self.list)):
+				self.list[i].grid( row=i , column=1 )
+		except BaseException as e:
+			print( 'Catched error : ' , e )
+			T = self
+			while T.master != None: 
+				T = T.master
+			ErrorPopup( T , 'Une erreur est survenu pendant la recherche' )
+
